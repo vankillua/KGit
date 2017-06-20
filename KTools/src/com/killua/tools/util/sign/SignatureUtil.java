@@ -231,7 +231,7 @@ public class SignatureUtil {
 			FileInputStream fis = new FileInputStream(cert);
 			xcert = (X509Certificate) cf.generateCertificate(fis);
 		} else {
-			byte[] bcert = Base64.decodeBase64(cert);
+			byte[] bcert = Base64.decodeBase64(cert.replaceAll("-----BEGIN CERTIFICATE-----", "").replaceAll("-----END CERTIFICATE-----", "").replaceAll(" ", "").trim());
 			ByteArrayInputStream bais = new ByteArrayInputStream(bcert);
 			xcert = (X509Certificate) cf.generateCertificate(bais);
 		}
@@ -320,12 +320,18 @@ public class SignatureUtil {
 			System.out.println("\nverify signature: " + flag);
 			System.out.println("Private Key: " + Base64.encodeBase64String(privatekey.getEncoded()));
 			System.out.println("Public Key: " + Base64.encodeBase64String(publickey.getEncoded()));
-			
+*/			
 //			String fcer = "D:\\用户目录\\桌面\\1.cer";
 			String fcer = "MIICMDCCAdWgAwIBAgIFAMXi8u8wCgYIKoZIzj0EAwIwgZ4xCzAJBgNVBAYTAkNOMRIwEAYDVQQIDAlHdWFuZ2RvbmcxEjAQBgNVBAcMCUd1YW5nemhvdTEbMBkGA1UECgwSR3Vhbmd6aG91IEVyaWNzc29uMREwDwYDVQQLDAhFcmljc3NvbjEPMA0GA1UEAwwGS2lsbHVhMSYwJAYJKoZIhvcNAQkBFhd6aWppYW4uaGFuQGVyaWNzc29uLmNvbTAeFw0xNzA2MTQwODEzNThaFw0xODA2MTQwODEzNThaMIGeMQswCQYDVQQGEwJDTjESMBAGA1UECAwJR3Vhbmdkb25nMRIwEAYDVQQHDAlHdWFuZ3pob3UxGzAZBgNVBAoMEkd1YW5nemhvdSBFcmljc3NvbjERMA8GA1UECwwIRXJpY3Nzb24xDzANBgNVBAMMBktpbGx1YTEmMCQGCSqGSIb3DQEJARYXemlqaWFuLmhhbkBlcmljc3Nvbi5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAQYnxfUwL6Tnhlsx03CSQTmXSdNFawxhrchJXkcdCTLi06MUwQ3A7aqs07d7YGG4JuIyLI1B2HeiaUf3yGWNEahMAoGCCqGSM49BAMCA0kAMEYCIQCPRSIxZkAy8CTxSsws3mSpGHPXfGSssMgzMl86UFrLygIhAJWJLhf6y5cdZrVCWd4XAHrvhLm9WGQtBHVuJibMZREB";
 			String pub = su.getPublicKeyFromCert(fcer);
 			System.out.println("\nFile: " + fcer + "\nPublic Key: " + pub);
-			*/
+			String fcer1 = "-----BEGIN CERTIFICATE-----MIIDQTCCAuegAwIBAgIUJ8KhyafUIE5/WC6+fvzisWSXO7swCgYIKoZIzj0EAwIwgeoxJzAlBgNVBAMMHkdsb2JhbCBWZWhpY2xlIElzc3VpbmcgVGVzdCBDQTEmMCQGA1UECwwdR2VlbHkgQXV0b21vYmlsZSBIb2xkaW5ncyBMdGQxLjAsBgNVBAoMJVpoZWppYW5nIEdlZWx5IEhvbGRpbmcgR3JvdXAgQ28uLCBMdGQxETAPBgNVBAcMCEhhbmd6aG91MREwDwYDVQQIDAhaaGVqaWFuZzELMAkGA1UEBhMCQ04xFTATBgoJkiaJk/IsZAEZFgVHZWVseTEdMBsGCgmSJomT8ixkARkWDUNvbm5lY3RlZCBDYXIwIBcNMTcwNjE5MDI0NDMzWhgPMjA2NzA2MTkwMjQ0MzNaMIG1MRowGAYDVQQDDBE4NzQxRENGQjNGMUQ4NzZFODEPMA0GA1UECwwGMjAxNjMzMQ0wCwYDVQQKDAQyMDE2MQswCQYDVQQHDAJDTjERMA8GA1UECAwIWmhlamlhbmcxCzAJBgNVBAYTAkNOMRQwEgYKCZImiZPyLGQBAQwEVEVNMjEZMBcGCgmSJomT8ixkARkWCW1vZGVsQ29kZTEZMBcGCgmSJomT8ixkARkWCUdlZWx5IENTUDBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABNNE+DoaSJhKT0BGqvKSn9nfKRjF5elhgYPYNCJt0vbMhh1rrPgYxY+R5Dox4tdQNNlp2nKZUrAkvvQ1dzFKTkajgZswgZgwDgYDVR0PAQH/BAQDAgWgMBMGA1UdJQQMMAoGCCsGAQUFBwMCMB8GA1UdIwQYMBaAFMqimubgj6LneDVc2s57YMIAzJFuMDEGCCsGAQUFBwEBBCUwIzAhBggrBgEFBQcwAYYVaHR0cDovL29jc3AuZ2VlbHkuY29tMB0GA1UdDgQWBBT3wyDgqJLrH06e4PU7iuIkVLW2WDAKBggqhkjOPQQDAgNIADBFAiEAm2hsxTyyxS6iIVO+7DEeoWWv43bw0C284a6DAZt/B4YCIH7K3Z63O1LMXGHp83QHBgI2FAtPPW438wqZ6ivHkW2j-----END CERTIFICATE-----";
+			String pub1 = su.getPublicKeyFromCert(fcer1);
+			System.out.println("\nFile: " + fcer1 + "\nPublic Key: " + pub1);
+			String fcer2 = "-----BEGIN CERTIFICATE-----\nMIIDQTCCAuegAwIBAgIUJ8KhyafUIE5/WC6+fvzisWSXO7swCgYIKoZIzj0EAwIw\ngeoxJzAlBgNVBAMMHkdsb2JhbCBWZWhpY2xlIElzc3VpbmcgVGVzdCBDQTEmMCQG\nA1UECwwdR2VlbHkgQXV0b21vYmlsZSBIb2xkaW5ncyBMdGQxLjAsBgNVBAoMJVpo\nZWppYW5nIEdlZWx5IEhvbGRpbmcgR3JvdXAgQ28uLCBMdGQxETAPBgNVBAcMCEhh\nbmd6aG91MREwDwYDVQQIDAhaaGVqaWFuZzELMAkGA1UEBhMCQ04xFTATBgoJkiaJ\nk/IsZAEZFgVHZWVseTEdMBsGCgmSJomT8ixkARkWDUNvbm5lY3RlZCBDYXIwIBcN\nMTcwNjE5MDI0NDMzWhgPMjA2NzA2MTkwMjQ0MzNaMIG1MRowGAYDVQQDDBE4NzQx\nRENGQjNGMUQ4NzZFODEPMA0GA1UECwwGMjAxNjMzMQ0wCwYDVQQKDAQyMDE2MQsw\nCQYDVQQHDAJDTjERMA8GA1UECAwIWmhlamlhbmcxCzAJBgNVBAYTAkNOMRQwEgYK\nCZImiZPyLGQBAQwEVEVNMjEZMBcGCgmSJomT8ixkARkWCW1vZGVsQ29kZTEZMBcG\nCgmSJomT8ixkARkWCUdlZWx5IENTUDBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IA\nBNNE+DoaSJhKT0BGqvKSn9nfKRjF5elhgYPYNCJt0vbMhh1rrPgYxY+R5Dox4tdQ\nNNlp2nKZUrAkvvQ1dzFKTkajgZswgZgwDgYDVR0PAQH/BAQDAgWgMBMGA1UdJQQM\nMAoGCCsGAQUFBwMCMB8GA1UdIwQYMBaAFMqimubgj6LneDVc2s57YMIAzJFuMDEG\nCCsGAQUFBwEBBCUwIzAhBggrBgEFBQcwAYYVaHR0cDovL29jc3AuZ2VlbHkuY29t\nMB0GA1UdDgQWBBT3wyDgqJLrH06e4PU7iuIkVLW2WDAKBggqhkjOPQQDAgNIADBF\nAiEAm2hsxTyyxS6iIVO+7DEeoWWv43bw0C284a6DAZt/B4YCIH7K3Z63O1LMXGHp\n83QHBgI2FAtPPW438wqZ6ivHkW2j\n-----END CERTIFICATE-----\n";
+			String pub2 = su.getPublicKeyFromCert(fcer2);
+			System.out.println("\nFile: " + fcer2 + "\nPublic Key: " + pub2);
+/*
 			KeyPair kp = su.generateKeyPair();
 			String pri1 = Base64.encodeBase64String(kp.getPrivate().getEncoded());
 			String pub1 = Base64.encodeBase64String(kp.getPublic().getEncoded());
@@ -333,6 +339,7 @@ public class SignatureUtil {
 			su.setPublickey(pub1);
 			System.out.println("\nPrivateKey:\nin: " + pri1 + "\nout: " + su.getPrivatekey());
 			System.out.println("PublicKey:\nin: " + pub1 + "\nout: " + su.getPublickey());
+			*/
 		} catch (Exception e) {
 			System.out.println("Exception for SignatureUtil: " + e);
 		}
