@@ -13,6 +13,7 @@ import gnu.getopt.Getopt;
 import gnu.getopt.LongOpt;
 import java.security.KeyPair;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang.StringEscapeUtils;
 
 public class KTools {
 
@@ -125,7 +126,8 @@ public class KTools {
 						usage();
 					} else {
 						su = new SignatureUtil();
-						result = su.getPublicKeyFromCert(args[CertEnum.CERT.getCode()]);
+						String cert = StringEscapeUtils.unescapeJava(args[CertEnum.CERT.getCode()]);
+						result = su.getPublicKeyFromCert(cert);
 						System.out.println("Get Public Key from Certificate:");
 						System.out.println("Certificate: \n" + args[CertEnum.CERT.getCode()]);
 						System.out.println("Public Key: \n" + result);
