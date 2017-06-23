@@ -1,0 +1,6 @@
+/app.properties
+/applicationContext.xml
+/blacklist.conf
+/com/
+/logback.xml
+/spring-servlet.xml

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/2002/xmlspec/dtd/2.10/xmlspec.dtd">
+<configuration scan="true">
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<!-- <file>/opt/ericsson/csp/logs/csp-simulator.log</file> -->
+			<file>E:\Eclipse Workspace\Eclipse\csp-simulator\WebRoot\WEB-INF\logs\csp-simulator.log</file>
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                        <FileNamePattern>E:\Eclipse Workspace\Eclipse\csp-simulator\WebRoot\WEB-INF\logs\csp-simulator-%d{yyyy-MM-dd}.%i.gz
+                        </FileNamePattern>
+                        <MaxHistory>60</MaxHistory>
+                        <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                                <maxFileSize>512MB</maxFileSize>
+                        </timeBasedFileNamingAndTriggeringPolicy>
+                </rollingPolicy>
+                <layout class="ch.qos.logback.classic.PatternLayout">
+                        <Pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [CSP_SIMULATOR] [%level] [%logger{36}] %msg%n</Pattern>
+                </layout>
+        </appender>
+
+        <logger name="com.killua.simulator">
+                <level value="INFO" />
+                <appender-ref ref="FILE" />
+        </logger>
+</configuration>
