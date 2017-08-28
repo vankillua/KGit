@@ -5,6 +5,7 @@ import com.killua.tools.enums.CertEnum;
 import com.killua.tools.enums.JksEnum;
 import com.killua.tools.enums.Md5Enum;
 import com.killua.tools.enums.SignEnum;
+import com.killua.tools.enums.VerEnum;
 import com.killua.tools.util.aes.AESCipherUtil;
 import com.killua.tools.util.cert.Cert;
 import com.killua.tools.util.md5.Md5Util;
@@ -23,7 +24,8 @@ public class KTools {
 				+ "\t-h: show help\n"
 				+ "\t-m: md5 encryption\n"
 				+ "\t-a: aes encryption\n"
-				+ "\t-s: csp sms signature\n"
+				+ "\t-s: sign csp downlink sms\n"
+				+ "\t-v: verify tbox uplink sms\n"
 				+ "\t-j: get key pair from jks file\n"
 				+ "\t-c: get key pair from cer file or cer string\n"
 				+ "\t-k: generate key pair\n"
@@ -35,6 +37,7 @@ public class KTools {
 				+ "\tjava -jar ktools.jar -m content [bits], bits defaults to 32\n"
 				+ "\tjava -jar ktools.jar -a content secret_key [is_base64], is_base64 defaults to true\n"
 				+ "\tjava -jar ktools.jar -s content [private_key]\n"
+				+ "\tjava -jar ktools.jar -v signature_content public_key\n"
 				+ "\tjava -jar ktools.jar -j jks_file file_pwd [private_key_pwd] [alias], private_key_pwd defaults to the same as file_pwd\n"
 				+ "\tjava -jar ktools.jar -c cert_file[|cert_string]\n"
 				+ "\tjava -jar ktools.jar -k\n"
@@ -53,13 +56,14 @@ public class KTools {
 					new LongOpt("md5", 0, null, 'm'),
 					new LongOpt("aes", 0, null, 'a'), 
 					new LongOpt("sign", 0, null, 's'),
+					new LongOpt("verify", 0, null, 'v'),
 					new LongOpt("jks", 0, null, 'j'),
 					new LongOpt("cer", 0, null, 'c'),
 					new LongOpt("keys", 0, null, 'k'),
 					new LongOpt("Cert", 0, null, 'C')
 			};
 
-			Getopt getopt = new Getopt("KTools", args, "hmasjckC", longopts);
+			Getopt getopt = new Getopt("KTools", args, "hmasvjckC", longopts);
 			while (-1 != (ch = getopt.getopt())) {
 				String result;
 				SignatureUtil su;
@@ -104,6 +108,22 @@ public class KTools {
 							System.out.println("Certificate: \n" + su.getCertificate());
 						}
 						System.out.println("output: \n" + result);
+					}
+					break;
+				case 'v':
+					if (VerEnum.PNUM.getCode() > args.length) {
+						usage();
+					} else {
+						su = new SignatureUtil();
+						su.setPublickey(args[VerEnum.PUBK.getCode()]);
+						String sms = su.getOriginalSmsContent(args[VerEnum.SIGN.getCode()]);
+						//验签成功则提取短信内容
+						if (! sms.isEmpty()) {
+							System.out.println("Verify Signature: true");
+							System.out.println("Original Sms Content: " + sms);
+						} else {
+							System.out.println("Verify Signature: false");
+						}
 					}
 					break;
 				case 'j':
